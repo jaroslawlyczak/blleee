@@ -21,14 +21,20 @@ jobs:
       - name: Build Docker image
         run: docker build -t flask_app:1.0.0 .
 
-      # Krok 3: Uruchomienie aplikacji w kontenerze
-      - name: Test the app inside Docker image
-        run: docker run -d -p 5000:5000 flask_app:1.0.0
+      # Krok 3: Uruchomienie kontenera i zapisanie ID
+      - name: Run Docker container and save container ID
+        id: run_container
+        run: |
+          container_id=$(docker run -d -p 5000:5000 flask_app:1.0.0)
+          echo "Container ID: $container_id"
+          echo "CONTAINER_ID=$container_id" >> $GITHUB_ENV
 
-      # Krok 4: Uruchomienie testów (jeśli masz jakieś testy w aplikacji)
-      - name: Run tests
-        run: docker exec <container_id> pytest  # Zastąp <container_id> rzeczywistym ID kontenera
+      # Krok 4: Uruchomienie testów wewnątrz kontenera
+      - name: Run tests inside Docker container
+        run: |
+          echo "Running tests in container: ${{ env.CONTAINER_ID }}"
+          docker exec ${{ env.CONTAINER_ID }} pytest
 
-      # Krok 5: Publikowanie obrazu Docker do repozytorium
-      - name: Publish the image
-        run: echo "Publishing the image to a public repository"
+      # Krok 5: Publikowanie obrazu (opcjonalnie)
+      - name: Publish the Docker image
+        run: docker push flask_app:1.0.0
