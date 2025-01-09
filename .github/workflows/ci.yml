@@ -17,8 +17,8 @@ jobs:
         - name: Log in to DockerHub
           uses: docker/login-action@v2
           with:
-           username: ${{ secrets.DOCKER_USERNAME }}
-           password: ${{ secrets.DOCKER_PASSWORD }}
+           username: ${{ secrets.D_NAME }}
+           password: ${{ secrets.D_PASS }}
         - name: Build and tag Docker image
           run: |
            docker build -t project:1.0.0 .
