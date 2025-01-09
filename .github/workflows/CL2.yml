@@ -33,12 +33,12 @@ jobs:
       - name: Publish the Docker image
         uses: docker/login-action@v2
         with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.PAT_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PAT_TOKEN }}
 
       - name: Push Docker image
         run: |
-        docker tag myapp:latest ghcr.io/jaroslawlyczak/myapp:latest &&
-        docker push ghcr.io/jaroslawlyczak/myapp:latest
-        docker push flask_app:1.0.0
+          docker tag myapp:latest ghcr.io/jaroslawlyczak/myapp:latest &&
+          docker push ghcr.io/jaroslawlyczak/myapp:latest
+          docker push flask_app:1.0.0
