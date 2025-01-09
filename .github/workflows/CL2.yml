@@ -18,12 +18,12 @@ jobs:
         uses: actions/checkout@v4
       # Krok 2: Budowanie obrazu Docker
       - name: Build Docker image
-        run: docker build -t flask_app:1.0.0 .
+        run: docker build -t project:1.0.0 .
       # Krok 3: Uruchomienie kontenera i zapisanie ID
       - name: Run Docker container and save container ID
         id: run_container
         run: |
-          container_id=$(docker run -d -p 5000:5000 flask_app:1.0.0)
+          container_id=$(docker run -d -p 8080:5000 project:1.0.0)
           echo "Container ID: $container_id"
           echo "CONTAINER_ID=$container_id" >> $GITHUB_ENV
       # Krok 4: Uruchomienie testów wewnątrz kontenera
@@ -33,10 +33,9 @@ jobs:
       - name: Publish the Docker image
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.PAT_TOKEN }}
+           username: ${{ secrets.D_NAME }}
+           password: ${{ secrets.D_PASS }}
 
       - name: Push Docker image
         run: |
-          docker push flask_app:1.0.0
+          docker push project:1.0.0
