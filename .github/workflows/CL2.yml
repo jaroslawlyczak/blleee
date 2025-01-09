@@ -30,7 +30,7 @@ jobs:
       - name: Run tests inside Docker container
         run: |
           echo "Running tests in container: ${{ env.CONTAINER_ID }}"
-          docker exec $CONTAINER bash -c "pytest"
+          docker exec $CONTAINER bash -c "python -m pytest"
       # Krok 5: Publikowanie obrazu (opcjonalnie)
       - name: Publish the Docker image
         run: docker push flask_app:1.0.0
