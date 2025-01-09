@@ -38,4 +38,9 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push project:1.0.0
+           docker build -t project:1.0.0 .
+      - name: Push Docker image
+        run: |
+          docker tag project:1.0.0 jareklyczak/project:1.0.0
+          docker push jareklyczak/project:1.0.0
+
