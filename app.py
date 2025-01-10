@@ -1,33 +1,14 @@
-from flask import Flask, request, render_template_string
+from flask import Flask
 
 app = Flask(__name__)
 
-html_form = '''
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Enter Your Name</title>
-</head>
-<body>
-    <form method="POST" action="/">
-        <label for="name">Enter your name:</label>
-        <input type="text" id="name" name="name" required>
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
-'''
+@app.route("/")
+def home():
+    return "<h3>Hello, World!</h3><br><br><p>Enter your name in address after slash, ex. 127.0.0.1:5000/Name</p>"
 
-@app.route('/', methods=['GET', 'POST'])
-def hello_world():
-    if request.method == 'POST':
-        name = request.form.get('name', 'Guest')
-        return f'<h1>Hello, {name}!</h1>'
-    return html_form
+@app.route("/<name>")
+def greet(name):
+    return f"<h2>Witaj, {name.capitalize()}!</h2>"
 
-@app.route('/hello/<name>')
-def hello_name(name):
-    return f'<p>Hello, {name}!</p>'
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
